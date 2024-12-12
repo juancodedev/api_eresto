@@ -10,7 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import os
+import datetime
 from pathlib import Path
+from dotenv import load_dotenv
+load_dotenv()
+
+# import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,12 +26,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-&an&_m_gv!3xk2*rk5^x7&8@w*#70+35tzs10qurqvx5!9+#=0'
+SECRET_KEY = 'vQSXrQuj[0MM_.G)hje]VF({6&h1kMAx!(mMX!DnYL:&Acn-(9;Rvq{xeG&=ZwzJM4M&Th4in*+-6te{?fiQGhkQg5.&xfy4e,!QYxU#6F7(Dd4n4r*uvkqiG!HK}f&:LW;T*uHVc)kL'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+# ALLOWED_HOSTS = ["*"]
+APP_NAME = os.environ.get('FLY_APP_NAME')
+ALLOWED_HOSTS = [f'{APP_NAME}.fly.dev','127.0.0.1', 'localhost'] 
 
 
 # Application definition
@@ -73,13 +82,22 @@ WSGI_APPLICATION = 'api_eresto.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('DBNAME'),
+        'USER': os.getenv('DBUSER'),
+        'PASSWORD': os.getenv('DBPASSWORD'),
+        'HOST': os.getenv('DBHOST'),
+        'PORT': os.getenv('DBPORT'), 
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -103,8 +121,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
-
+LANGUAGE_CODE = 'es-es'
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
