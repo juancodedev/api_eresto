@@ -14,10 +14,14 @@ import os
 import datetime
 from pathlib import Path
 from dotenv import load_dotenv
+import sentry_sdk
 load_dotenv()
 
 # import dj_database_url
 
+sentry_sdk.init(
+    dsn="https://c24357e326402cd8790dff941b3fb278@o4508441625296896.ingest.us.sentry.io/4508441625559040",
+)
 SECURE_HSTS_SECONDS = 31536000
 SECURE_HSTS_INCLUDE_SUBDOMAINS = False #True
 SECURE_HSTS_PRELOAD = False#True
@@ -52,10 +56,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'corsheaders',
 	'drf_yasg',
     'rest_framework',
-    'users'
+	'corsheaders',
+    'django_filters',
+    'users',
+    'categories',
+    'products',
+    'tables',
+    'orders',
+    'payments'
 ]
 
 MIDDLEWARE = [
@@ -66,7 +76,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+    # "django.middleware.security.SecurityMiddleware",
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'api_eresto.urls'
@@ -148,7 +159,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 MEDIA_URL = '/uploads/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
 
@@ -157,13 +168,35 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'users.User'
+
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_ALL_ORIGINS = True
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(days=120)
+}
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_TMP = os.path.join(BASE_DIR, 'static')
+
+os.makedirs(STATIC_TMP, exist_ok=True)
+os.makedirs(STATIC_ROOT, exist_ok=True)
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
+# STATIC_ROOT = BASE_DIR / 'productionfiles'
 
+# STATIC_URL = 'static/'
 CORS_ALLOWED_ORIGINS = [
     "https://icard-react.vercel.app",  # El origen desde el cual quieres permitir las solicitudes
 ]
 
+
+# CSRF_TRUSTED_ORIGINS = [
+#     'https://icard-django.fly.dev.fly.dev'
+# ]
