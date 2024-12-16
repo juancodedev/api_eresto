@@ -35,7 +35,7 @@ CSRF_COOKIE_SECURE = True
 SECRET_KEY = 'vQSXrQuj[0MM_.G)hje]VF({6&h1kMAx!(mMX!DnYL:&Acn-(9;Rvq{xeG&=ZwzJM4M&Th4in*+-6te{?fiQGhkQg5.&xfy4e,!QYxU#6F7(Dd4n4r*uvkqiG!HK}f&:LW;T*uHVc)kL'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('ENVIROMENT')
 
 # ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 # ALLOWED_HOSTS = ["*"]
@@ -126,6 +126,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
