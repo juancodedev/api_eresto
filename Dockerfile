@@ -22,6 +22,8 @@ RUN set -ex && \
     rm -rf /root/.cache/
 COPY . /code
 
+ENV SECRET_KEY "2z6Zn0yMz9thozFDSySFIIhzUXCXbyUpgArMDaXKXDtOeMLaxy"
+RUN python manage.py collectstatic --noinput
 EXPOSE 8000
 
 CMD ["gunicorn","--bind",":8000","--workers","2","api_eresto.wsgi"]

@@ -78,6 +78,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # "django.middleware.security.SecurityMiddleware",
+    'corsheaders.middleware.CorsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
@@ -201,3 +202,11 @@ CORS_ALLOWED_ORIGINS = [
 # CSRF_TRUSTED_ORIGINS = [
 #     'https://icard-django.fly.dev.fly.dev'
 # ]
+
+# CORS_ALLOW_ALL_ORIGINS = True 
+# Se recomienda especificar el host desde donde se llamará la api
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    # "http://tusitio.com",
+]
